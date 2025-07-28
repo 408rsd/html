@@ -1,0 +1,12 @@
+<html></html>  html标签  根标签
+<head></head>   文档的头部
+<title></title>    文档的标题
+<body><body>  文档的主体
+
+快速复制shift +alt +⬇
+ctrl +d 快速选中多个
+ctrl alt +上箭头
+
+ctrl + h全局替换
+ctrl + g快速定位的某一行
+shift + alt键  整个区域进行操作

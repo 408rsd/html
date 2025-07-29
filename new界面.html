@@ -6,7 +6,69 @@
     <title>myself</title>
 </head>
 <body>
-    写代码
+    <canvas id="particles" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:-1;"></canvas>
+    <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let w = window.innerWidth, h = window.innerHeight;
+    canvas.width = w; canvas.height = h;
+
+    const particles = [];
+    const PARTICLE_NUM = 80;
+
+    function randomColor() {
+        return `rgba(${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},${Math.floor(Math.random()*255)},0.7)`;
+    }
+
+    for(let i=0;i<PARTICLE_NUM;i++){
+        particles.push({
+            x: Math.random()*w,
+            y: Math.random()*h,
+            vx: (Math.random()-0.5)*1.5,
+            vy: (Math.random()-0.5)*1.5,
+            r: Math.random()*3+2,
+            color: randomColor()
+        });
+    }
+
+    function draw(){
+        ctx.clearRect(0,0,w,h);
+        for(let i=0;i<PARTICLE_NUM;i++){
+            let p = particles[i];
+            ctx.beginPath();
+            ctx.arc(p.x,p.y,p.r,0,2*Math.PI);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            for(let j=i+1;j<PARTICLE_NUM;j++){
+                let q = particles[j];
+                let dist = Math.hypot(p.x-q.x,p.y-q.y);
+                if(dist<120){
+                    ctx.beginPath();
+                    ctx.moveTo(p.x,p.y);
+                    ctx.lineTo(q.x,q.y);
+                    ctx.strokeStyle = 'rgba(200,200,200,0.2)';
+                    ctx.stroke();
+                }
+            }
+            p.x += p.vx;
+            p.y += p.vy;
+            if(p.x<0||p.x>w) p.vx*=-1;
+            if(p.y<0||p.y>h) p.vy*=-1;
+        }
+        requestAnimationFrame(draw);
+    }
+    draw();
+
+    window.addEventListener('resize',()=>{
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+    });
+    </script>
+    <div style="position:relative;z-index:1;text-align:center;margin-top:20vh;font-size:2em;color:#333;">
+            写代码
+    </div>
 
 </body>
 </html>
